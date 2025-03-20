@@ -56,13 +56,13 @@ if ($psVersion -lt 5) {
 }
  
 Stop-Service -Force -Name "OBAS Agent Service"
-Invoke-WebRequest -Uri "http://{HOST}/api/agent/package/openbas/windows/$architecture" -OutFile "openbas-installer.exe"
-.\openbas-installer.exe /S `
+Invoke-WebRequest -Uri "http://{HOST}/api/agent/package/openbas/windows/$architecture" -OutFile "C:\openbas-installer.exe"
+C:\openbas-installer.exe /S `
 ~OPENBAS_URL="http://{HOST}:8080" `
 ~ACCESS_TOKEN="{USER_ACCESS_TOKEN}" `
 ~UNSECURED_CERTIFICATE=false `
 ~WITH_PROXY=false
 Start-Sleep -Seconds 2
-Remove-Item -Force .\openbas-installer.exe
+Remove-Item -Force C:\openbas-installer.exe
 ```
 
