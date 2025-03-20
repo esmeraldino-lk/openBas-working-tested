@@ -30,7 +30,7 @@ To start OpenBAS with the Caldera executor (Caldera used as an agent), run:
    docker-compose -f docker-compose.atomic-red-team.yml up -d
 ```
 
-### Installing on older powershell version:
+### Installing in older powershell version:
 
 ```ps1
    $architecture = ""
