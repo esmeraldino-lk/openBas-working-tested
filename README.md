@@ -30,3 +30,39 @@ To start OpenBAS with the Caldera executor (Caldera used as an agent), run:
    docker-compose -f docker-compose.atomic-red-team.yml up -d
 ```
 
+### Installing on older powershell version:
+
+```ps1
+   $architecture = ""
+if ($env:PROCESSOR_ARCHITECTURE -eq "AMD64") {
+    $architecture = "x86_64"
+} elseif ($env:PROCESSOR_ARCHITECTURE -eq "ARM64") {
+    $architecture = "arm64"
+} elseif ($env:PROCESSOR_ARCHITECTURE -eq "x86") {
+    if ($env:PROCESSOR_ARCHITEW6432 -eq "AMD64") {
+        $architecture = "x86_64"
+    } elseif ($env:PROCESSOR_ARCHITEW6432 -eq "ARM64") {
+        $architecture = "arm64"
+    }
+}
+ 
+if ($architecture -eq "") {
+    throw "Architecture $env:PROCESSOR_ARCHITECTURE is not supported yet, please create a ticket in openbas github project"
+}
+ 
+$psVersion = $PSVersionTable.PSVersion.Major
+if ($psVersion -lt 5) {
+    throw "PowerShell 5 or higher is required for installation"
+}
+ 
+Stop-Service -Force -Name "OBAS Agent Service"
+Invoke-WebRequest -Uri "http://{HOST}/api/agent/package/openbas/windows/$architecture" -OutFile "openbas-installer.exe"
+.\openbas-installer.exe /S `
+~OPENBAS_URL="http://{HOST}:8080" `
+~ACCESS_TOKEN="{USER_ACCESS_TOKEN}" `
+~UNSECURED_CERTIFICATE=false `
+~WITH_PROXY=false
+Start-Sleep -Seconds 2
+Remove-Item -Force .\openbas-installer.exe
+```
+
