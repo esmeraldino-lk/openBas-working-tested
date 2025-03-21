@@ -62,7 +62,7 @@ C:\openbas-installer.exe /S `
 ~ACCESS_TOKEN="{USER_ACCESS_TOKEN}" `
 ~UNSECURED_CERTIFICATE=false `
 ~WITH_PROXY=false
-Start-Sleep -Seconds 2
+Start-Sleep -Seconds 5
 Remove-Item -Force C:\openbas-installer.exe
 ```
 
